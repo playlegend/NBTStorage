@@ -16,26 +16,26 @@ public class NbtTagByteArray extends NbtBase {
 
   private byte[] data;
 
-  public NbtTagByteArray(byte[] data) {
+  public NbtTagByteArray(final byte[] data) {
     this.data = data;
   }
 
   @Override
-  void write(DataOutput dataOutput) throws IOException {
+  void write(final DataOutput dataOutput) throws IOException {
     dataOutput.writeInt(this.data.length);
     dataOutput.write(this.data);
   }
 
   @Override
-  void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException {
-    int count = datainput.readInt();
+  void load(final DataInput dataInput, final int complexity, final NbtReadLimiter nbtReadLimiter) throws IOException {
+    int count = dataInput.readInt();
     if (count >= 1 << 24) {
       throw new NbtLoadException("Error while loading ByteArray");
     }
 
     nbtReadLimiter.allocate(8 * count);
     this.data = new byte[count];
-    datainput.readFully(this.data);
+    dataInput.readFully(this.data);
   }
 
   @Override
@@ -57,7 +57,7 @@ public class NbtTagByteArray extends NbtBase {
   }
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     return super.equals(other) && Arrays.equals(this.data, ((NbtTagByteArray) other).data);
   }
 

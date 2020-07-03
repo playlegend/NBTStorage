@@ -12,7 +12,7 @@ public abstract class NbtBase {
 
   abstract void write(DataOutput dataOutput) throws IOException;
 
-  abstract void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException;
+  abstract void load(DataInput dataInput, int complexity, NbtReadLimiter nbtReadLimiter) throws IOException;
 
   public abstract NbtType getType();
 
@@ -26,7 +26,7 @@ public abstract class NbtBase {
   public abstract NbtBase clone();
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     if (!(other instanceof NbtBase)) {
       return false;
     } else {
@@ -35,9 +35,6 @@ public abstract class NbtBase {
       return this.getType() == nbtbase.getType();
     }
   }
-
-  @Override
-  public abstract String toString();
 
   @Override
   public int hashCode() {

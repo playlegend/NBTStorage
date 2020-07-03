@@ -16,12 +16,12 @@ public class NbtTagIntArray extends NbtBase {
 
   private int[] data;
 
-  public NbtTagIntArray(int[] data) {
+  public NbtTagIntArray(final int[] data) {
     this.data = data;
   }
 
   @Override
-  void write(DataOutput dataOutput) throws IOException {
+  void write(final DataOutput dataOutput) throws IOException {
     dataOutput.writeInt(this.data.length);
 
     for (int value : this.data) {
@@ -31,8 +31,8 @@ public class NbtTagIntArray extends NbtBase {
   }
 
   @Override
-  void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException {
-    int count = datainput.readInt();
+  void load(final DataInput dataInput, final int complexity, final NbtReadLimiter nbtReadLimiter) throws IOException {
+    int count = dataInput.readInt();
     if (count >= 1 << 24) {
       throw new NbtLoadException("Error while loading IntArray");
     }
@@ -41,7 +41,7 @@ public class NbtTagIntArray extends NbtBase {
     this.data = new int[count];
 
     for (int index = 0; index < count; index++) {
-      this.data[index] = datainput.readInt();
+      this.data[index] = dataInput.readInt();
     }
 
   }
@@ -65,7 +65,7 @@ public class NbtTagIntArray extends NbtBase {
   }
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     return super.equals(other) && Arrays.equals(this.data, ((NbtTagIntArray) other).data);
   }
 

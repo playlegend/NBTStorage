@@ -1,18 +1,17 @@
 package net.playlegend.nbtstorage.exceptions;
 
-
 public class NbtException extends Error {
 
-  public NbtException(String s) {
-    super(s);
+  public NbtException(final String message) {
+    super(message);
   }
 
-  public NbtException(Throwable t) {
-    super(t);
+  public NbtException(final Throwable cause) {
+    super(cause);
   }
 
-  public NbtException(String s, Throwable t) {
-    super(s, t);
+  public NbtException(final String message, final Throwable cause) {
+    super(message, cause);
   }
 
 }

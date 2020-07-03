@@ -1,7 +1,7 @@
 package net.playlegend.nbtstorage.nbt;
 
-
 public enum NbtType {
+
   END(0, NbtTagEnd::new),
   BYTE(1, NbtTagByte::new),
   SHORT(2, NbtTagShort::new),

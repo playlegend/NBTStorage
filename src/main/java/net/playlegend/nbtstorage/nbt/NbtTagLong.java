@@ -15,19 +15,19 @@ public class NbtTagLong extends NbtNumber {
 
   private long data;
 
-  public NbtTagLong(long data) {
+  public NbtTagLong(final long data) {
     this.data = data;
   }
 
   @Override
-  void write(DataOutput dataOutput) throws IOException {
+  void write(final DataOutput dataOutput) throws IOException {
     dataOutput.writeLong(this.data);
   }
 
   @Override
-  void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException {
+  void load(final DataInput dataInput, final int complexity, final NbtReadLimiter nbtReadLimiter) throws IOException {
     nbtReadLimiter.allocate(64L);
-    this.data = datainput.readLong();
+    this.data = dataInput.readLong();
   }
 
   @Override
@@ -46,11 +46,11 @@ public class NbtTagLong extends NbtNumber {
   }
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     if (super.equals(other)) {
-      NbtTagLong nbttaglong = (NbtTagLong) other;
+      NbtTagLong nbtTagLong = (NbtTagLong) other;
 
-      return this.data == nbttaglong.data;
+      return this.data == nbtTagLong.data;
     } else {
       return false;
     }

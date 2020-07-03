@@ -18,13 +18,13 @@ public class NbtTagList extends NbtBase {
   private List<NbtBase> list = new ArrayList<>();
   private NbtType type = NbtType.END;
 
-  public NbtTagList(NbtType type, List<NbtBase> values) {
+  public NbtTagList(final NbtType type, final List<NbtBase> values) {
     this.type = type;
     this.list = values;
   }
 
   @Override
-  void write(DataOutput dataOutput) throws IOException {
+  void write(final DataOutput dataOutput) throws IOException {
     if (!this.list.isEmpty()) {
       this.type = this.list.get(0).getType();
     } else {
@@ -41,13 +41,13 @@ public class NbtTagList extends NbtBase {
   }
 
   @Override
-  void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException {
+  void load(final DataInput dataInput, final int complexity, final NbtReadLimiter nbtReadLimiter) throws IOException {
     if (complexity > 512) {
       throw new RuntimeException("Tried to read NBT tag with too high complexity, depth > 512");
     } else {
       nbtReadLimiter.allocate(8L);
-      this.type = NbtType.fromByte(datainput.readByte());
-      int j = datainput.readInt();
+      this.type = NbtType.fromByte(dataInput.readByte());
+      int j = dataInput.readInt();
       nbtReadLimiter.allocate(j * 8);
 
       if ((this.type == NbtType.END) && (j > 0)) {
@@ -60,10 +60,9 @@ public class NbtTagList extends NbtBase {
       for (int k = 0; k < j; k++) {
         NbtBase nbtbase = this.type.newInstance();
 
-        nbtbase.load(datainput, complexity + 1, nbtReadLimiter);
+        nbtbase.load(dataInput, complexity + 1, nbtReadLimiter);
         this.list.add(nbtbase);
       }
-
     }
   }
 
@@ -81,7 +80,7 @@ public class NbtTagList extends NbtBase {
     return this.list;
   }
 
-  public void add(NbtBase nbtBase) {
+  public void add(final NbtBase nbtBase) {
     if (this.type == NbtType.END) {
       this.type = nbtBase.getType();
     } else if (this.type != nbtBase.getType()) {
@@ -91,7 +90,7 @@ public class NbtTagList extends NbtBase {
     this.list.add(nbtBase);
   }
 
-  public void set(int index, NbtBase nbtBase) {
+  public void set(final int index, final NbtBase nbtBase) {
     if (index >= 0 && index < this.list.size()) {
       if (this.type == NbtType.END) {
         this.type = nbtBase.getType();
@@ -105,7 +104,7 @@ public class NbtTagList extends NbtBase {
     }
   }
 
-  public NbtBase remove(int index) {
+  public NbtBase remove(final int index) {
     return this.list.remove(index);
   }
 
@@ -114,7 +113,7 @@ public class NbtTagList extends NbtBase {
     return this.list.isEmpty();
   }
 
-  public NbtTagCompound getCompound(int index) {
+  public NbtTagCompound getCompound(final int index) {
     if (index >= 0 && index < this.list.size()) {
       NbtBase nbtbase = this.list.get(index);
 
@@ -124,7 +123,7 @@ public class NbtTagList extends NbtBase {
     }
   }
 
-  public int[] getIntArray(int index) {
+  public int[] getIntArray(final int index) {
     if (index >= 0 && index < this.list.size()) {
       NbtBase nbtbase = this.list.get(index);
 
@@ -134,7 +133,7 @@ public class NbtTagList extends NbtBase {
     }
   }
 
-  public double getDouble(int index) {
+  public double getDouble(final int index) {
     if (index >= 0 && index < this.list.size()) {
       NbtBase nbtbase = this.list.get(index);
 
@@ -144,7 +143,7 @@ public class NbtTagList extends NbtBase {
     }
   }
 
-  public float getFloat(int index) {
+  public float getFloat(final int index) {
     if (index >= 0 && index < this.list.size()) {
       NbtBase nbtbase = this.list.get(index);
 
@@ -154,7 +153,7 @@ public class NbtTagList extends NbtBase {
     }
   }
 
-  public String getString(int index) {
+  public String getString(final int index) {
     if (index >= 0 && index < this.list.size()) {
       NbtBase nbtbase = this.list.get(index);
 
@@ -164,7 +163,7 @@ public class NbtTagList extends NbtBase {
     }
   }
 
-  public NbtBase get(int index) {
+  public NbtBase get(final int index) {
     return index >= 0 && index < this.list.size() ? this.list.get(index) : new NbtTagEnd();
   }
 
@@ -188,12 +187,12 @@ public class NbtTagList extends NbtBase {
   }
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     if (super.equals(other)) {
-      NbtTagList nbttaglist = (NbtTagList) other;
+      NbtTagList nbtTagList = (NbtTagList) other;
 
-      if (this.type == nbttaglist.type) {
-        return this.list.equals(nbttaglist.list);
+      if (this.type == nbtTagList.type) {
+        return this.list.equals(nbtTagList.list);
       }
     }
 

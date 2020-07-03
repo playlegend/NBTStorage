@@ -20,12 +20,12 @@ public class NbtTagCompound extends NbtBase {
     this.map = new HashMap<>();
   }
 
-  public NbtTagCompound(Map<String, NbtBase> map) {
+  public NbtTagCompound(final Map<String, NbtBase> map) {
     this.map = map;
   }
 
   @Override
-  void write(DataOutput dataOutput) throws IOException {
+  void write(final DataOutput dataOutput) throws IOException {
     for (String key : this.map.keySet()) {
       NbtBase nbtbase = this.map.get(key);
       writeTag(key, nbtbase, dataOutput);
@@ -35,7 +35,7 @@ public class NbtTagCompound extends NbtBase {
   }
 
   @Override
-  void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException {
+  void load(final DataInput dataInput, final int complexity, final NbtReadLimiter nbtReadLimiter) throws IOException {
     if (complexity > 512) {
       throw new RuntimeException("Tried to read NBT tag with too high complexity, depth > 512");
     } else {
@@ -43,11 +43,11 @@ public class NbtTagCompound extends NbtBase {
 
       NbtType type;
 
-      while ((type = NbtType.fromByte(readByte(datainput, nbtReadLimiter))) != NbtType.END) {
-        String key = readString(datainput, nbtReadLimiter);
+      while ((type = NbtType.fromByte(readByte(dataInput, nbtReadLimiter))) != NbtType.END) {
+        String key = readString(dataInput, nbtReadLimiter);
 
         nbtReadLimiter.allocate(16 * key.length());
-        NbtBase nbtbase = readTag(type, key, datainput, complexity + 1, nbtReadLimiter);
+        NbtBase nbtbase = readTag(type, dataInput, complexity + 1, nbtReadLimiter);
 
         this.map.put(key, nbtbase);
       }
@@ -69,69 +69,69 @@ public class NbtTagCompound extends NbtBase {
     return this;
   }
 
-  public void set(String key, NbtBase value) {
+  public void set(final String key, final NbtBase value) {
     this.map.put(key, value);
   }
 
-  public void setByte(String key, byte value) {
+  public void setByte(final String key, final byte value) {
     this.map.put(key, new NbtTagByte(value));
   }
 
-  public void setShort(String key, short value) {
+  public void setShort(final String key, final short value) {
     this.map.put(key, new NbtTagShort(value));
   }
 
-  public void setInt(String key, int value) {
+  public void setInt(final String key, final int value) {
     this.map.put(key, new NbtTagInt(value));
   }
 
-  public void setLong(String key, long value) {
+  public void setLong(final String key, final long value) {
     this.map.put(key, new NbtTagLong(value));
   }
 
-  public void setFloat(String key, float value) {
+  public void setFloat(final String key, final float value) {
     this.map.put(key, new NbtTagFloat(value));
   }
 
-  public void setDouble(String key, double value) {
+  public void setDouble(final String key, final double value) {
     this.map.put(key, new NbtTagDouble(value));
   }
 
-  public void setString(String key, String value) {
+  public void setString(final String key, final String value) {
     this.map.put(key, new NbtTagString(value));
   }
 
-  public void setByteArray(String key, byte[] value) {
+  public void setByteArray(final String key, final byte[] value) {
     this.map.put(key, new NbtTagByteArray(value));
   }
 
-  public void setIntArray(String key, int[] value) {
+  public void setIntArray(final String key, final int[] value) {
     this.map.put(key, new NbtTagIntArray(value));
   }
 
-  public void setBoolean(String key, boolean value) {
+  public void setBoolean(final String key, final boolean value) {
     this.setByte(key, (byte) (value ? 1 : 0));
   }
 
-  public NbtBase get(String key) {
-    return (NbtBase) this.map.get(key);
+  public NbtBase get(final String key) {
+    return this.map.get(key);
   }
 
-  public NbtType typeOf(String key) {
-    NbtBase nbtbase = (NbtBase) this.map.get(key);
+  public NbtType typeOf(final String key) {
+    NbtBase nbtbase = this.map.get(key);
 
     return nbtbase != null ? nbtbase.getType() : NbtType.END;
   }
 
-  public boolean hasKey(String s) {
+  public boolean hasKey(final String s) {
     return this.map.containsKey(s);
   }
 
-  public boolean isNumber(String key) {
+  public boolean isNumber(final String key) {
     return this.typeOf(key).isNumber();
   }
 
-  public byte getByte(String key) {
+  public byte getByte(final String key) {
     if (!this.isNumber(key)) {
       return 0;
     }
@@ -144,7 +144,7 @@ public class NbtTagCompound extends NbtBase {
     }
   }
 
-  public short getShort(String key) {
+  public short getShort(final String key) {
     if (!this.isNumber(key)) {
       return 0;
     }
@@ -157,7 +157,7 @@ public class NbtTagCompound extends NbtBase {
     }
   }
 
-  public int getInt(String key) {
+  public int getInt(final String key) {
     if (!this.isNumber(key)) {
       return 0;
     }
@@ -170,7 +170,7 @@ public class NbtTagCompound extends NbtBase {
     }
   }
 
-  public long getLong(String key) {
+  public long getLong(final String key) {
     if (!this.isNumber(key)) {
       return 0;
     }
@@ -183,7 +183,7 @@ public class NbtTagCompound extends NbtBase {
     }
   }
 
-  public float getFloat(String key) {
+  public float getFloat(final String key) {
     if (!this.isNumber(key)) {
       return 0;
     }
@@ -196,7 +196,7 @@ public class NbtTagCompound extends NbtBase {
     }
   }
 
-  public double getDouble(String key) {
+  public double getDouble(final String key) {
     if (!this.isNumber(key)) {
       return 0;
     }
@@ -209,35 +209,35 @@ public class NbtTagCompound extends NbtBase {
     }
   }
 
-  public String getString(String key) {
+  public String getString(final String key) {
     if (this.typeOf(key) != NbtType.STRING) {
       return "";
     }
     return ((NbtTagString) this.map.get(key)).getData();
   }
 
-  public byte[] getByteArray(String key) {
+  public byte[] getByteArray(final String key) {
     if (this.typeOf(key) != NbtType.BYTE_ARRAY) {
       return new byte[0];
     }
     return ((NbtTagByteArray) this.map.get(key)).getData();
   }
 
-  public int[] getIntArray(String key) {
+  public int[] getIntArray(final String key) {
     if (this.typeOf(key) != NbtType.INT_ARRAY) {
       return new int[0];
     }
     return ((NbtTagIntArray) this.map.get(key)).getData();
   }
 
-  public NbtTagCompound getCompound(String key) {
+  public NbtTagCompound getCompound(final String key) {
     if (this.typeOf(key) != NbtType.COMPOUND) {
       return new NbtTagCompound();
     }
     return (NbtTagCompound) this.map.get(key);
   }
 
-  public NbtTagList getList(String key, NbtType type) {
+  public NbtTagList getList(final String key, final NbtType type) {
     try {
       if (this.typeOf(key) != NbtType.LIST) {
         return new NbtTagList();
@@ -251,11 +251,11 @@ public class NbtTagCompound extends NbtBase {
     }
   }
 
-  public boolean getBoolean(String key) {
+  public boolean getBoolean(final String key) {
     return this.getByte(key) != 0;
   }
 
-  public void remove(String s) {
+  public void remove(final String s) {
     this.map.remove(s);
   }
 
@@ -264,34 +264,36 @@ public class NbtTagCompound extends NbtBase {
     return this.map.isEmpty();
   }
 
-  static NbtBase readTag(NbtType type, String s, DataInput datainput, int i, NBTReadLimiter nbtreadlimiter) throws IOException {
+  private static NbtBase readTag(final NbtType type, final DataInput dataInput, final int complexity,
+                                 final NbtReadLimiter nbtReadLimiter) throws IOException {
     NbtBase nbtbase = type.newInstance();
 
     try {
-      nbtbase.load(datainput, i, nbtreadlimiter);
+      nbtbase.load(dataInput, complexity, nbtReadLimiter);
       return nbtbase;
     } catch (IOException ioexception) {
       throw new NbtLoadException(ioexception);
     }
   }
 
-  private static void writeTag(String s, NbtBase nbtbase, DataOutput dataoutput) throws IOException {
-    dataoutput.writeByte(nbtbase.getType().toByte());
-    if (nbtbase.getType() != NbtType.END) {
-      dataoutput.writeUTF(s);
-      nbtbase.write(dataoutput);
+  private static void writeTag(final String key, final NbtBase nbtBase, final DataOutput dataOutput)
+      throws IOException {
+    dataOutput.writeByte(nbtBase.getType().toByte());
+    if (nbtBase.getType() != NbtType.END) {
+      dataOutput.writeUTF(key);
+      nbtBase.write(dataOutput);
     }
   }
 
-  private static byte readByte(DataInput datainput, NBTReadLimiter nbtreadlimiter) throws IOException {
-    return datainput.readByte();
+  private static byte readByte(final DataInput dataInput, final NbtReadLimiter readLimiter) throws IOException {
+    return dataInput.readByte();
   }
 
-  private static String readString(DataInput datainput, NBTReadLimiter nbtreadlimiter) throws IOException {
-    return datainput.readUTF();
+  private static String readString(final DataInput dataInput, final NbtReadLimiter nbtReadLimiter) throws IOException {
+    return dataInput.readUTF();
   }
 
-  public void merge(NbtTagCompound compound) {
+  public void merge(final NbtTagCompound compound) {
     compound.map.forEach((key, nbtBase) -> {
       if (nbtBase.getType() == NbtType.COMPOUND) {
         // Compound
@@ -310,21 +312,21 @@ public class NbtTagCompound extends NbtBase {
 
   @Override
   public NbtBase clone() {
-    NbtTagCompound nbttagcompound = new NbtTagCompound();
+    NbtTagCompound nbtTagCompound = new NbtTagCompound();
 
-    for (String s : this.map.keySet()) {
-      nbttagcompound.set(s, this.map.get(s).clone());
+    for (String key : this.map.keySet()) {
+      nbtTagCompound.set(key, this.map.get(key).clone());
     }
 
-    return nbttagcompound;
+    return nbtTagCompound;
   }
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     if (super.equals(other)) {
-      NbtTagCompound nbttagcompound = (NbtTagCompound) other;
+      NbtTagCompound nbtTagCompound = (NbtTagCompound) other;
 
-      return this.map.entrySet().equals(nbttagcompound.map.entrySet());
+      return this.map.entrySet().equals(nbtTagCompound.map.entrySet());
     } else {
       return false;
     }

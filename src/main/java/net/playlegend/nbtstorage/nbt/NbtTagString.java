@@ -15,21 +15,22 @@ public class NbtTagString extends NbtBase {
     this.data = "";
   }
 
-  public NbtTagString(String s) {
-    this.data = s;
-    if (s == null) {
+  public NbtTagString(final String data) {
+    if (data == null) {
       throw new IllegalArgumentException("Empty string not allowed");
     }
+
+    this.data = data;
   }
 
   @Override
-  void write(DataOutput dataOutput) throws IOException {
+  void write(final DataOutput dataOutput) throws IOException {
     dataOutput.writeUTF(this.data);
   }
 
   @Override
-  void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException {
-    this.data = datainput.readUTF();
+  void load(final DataInput dataInput, final int complexity, final NbtReadLimiter nbtReadLimiter) throws IOException {
+    this.data = dataInput.readUTF();
     nbtReadLimiter.allocate(16 * this.data.length());
   }
 
@@ -54,13 +55,13 @@ public class NbtTagString extends NbtBase {
   }
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     if (!super.equals(other)) {
       return false;
     } else {
-      NbtTagString nbttagstring = (NbtTagString) other;
+      NbtTagString nbtTagString = (NbtTagString) other;
 
-      return this.data == null && nbttagstring.data == null || this.data != null && this.data.equals(nbttagstring.data);
+      return this.data == null && nbtTagString.data == null || this.data != null && this.data.equals(nbtTagString.data);
     }
   }
 

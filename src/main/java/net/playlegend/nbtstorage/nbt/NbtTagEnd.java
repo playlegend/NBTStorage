@@ -13,11 +13,11 @@ import java.io.IOException;
 public class NbtTagEnd extends NbtBase {
 
   @Override
-  void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException {
+  void load(final DataInput dataInput, final int complexity, final NbtReadLimiter nbtReadLimiter) throws IOException {
   }
 
   @Override
-  void write(DataOutput dataOutput) {
+  void write(final DataOutput dataOutput) {
   }
 
   @Override

@@ -16,12 +16,12 @@ public class NbtTagLongArray extends NbtBase {
 
   private long[] data;
 
-  public NbtTagLongArray(long[] data) {
+  public NbtTagLongArray(final long[] data) {
     this.data = data;
   }
 
   @Override
-  void write(DataOutput dataOutput) throws IOException {
+  void write(final DataOutput dataOutput) throws IOException {
     dataOutput.writeInt(this.data.length);
 
     for (long value : this.data) {
@@ -30,8 +30,8 @@ public class NbtTagLongArray extends NbtBase {
   }
 
   @Override
-  void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException {
-    int count = datainput.readInt();
+  void load(final DataInput dataInput, final int complexity, final NbtReadLimiter nbtReadLimiter) throws IOException {
+    int count = dataInput.readInt();
     if (count >= 1 << 24) {
       throw new NbtLoadException("Error while loading LongArray");
     }
@@ -40,7 +40,7 @@ public class NbtTagLongArray extends NbtBase {
     this.data = new long[count];
 
     for (int index = 0; index < count; index++) {
-      this.data[index] = datainput.readLong();
+      this.data[index] = dataInput.readLong();
     }
   }
 
@@ -63,7 +63,7 @@ public class NbtTagLongArray extends NbtBase {
   }
 
   @Override
-  public boolean equals(Object other) {
+  public boolean equals(final Object other) {
     return super.equals(other) && Arrays.equals(this.data, ((NbtTagLongArray) other).data);
   }
 
