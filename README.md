@@ -2,7 +2,7 @@
 
 # NBTStorage
 NBTStorage is an API for editing all kinds of Nbt related data in Minecraft **Bukkit**.
-The original version was developed by @RewisServer.
+The original version has been developed by [@RewisServer](https://github.com/RewisServer).
 
 ## Maven Repository
 NBTStorage is available through our Maven [repository](https://repository.playlegend.net).
