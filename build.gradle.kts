@@ -74,7 +74,7 @@ publishing {
             version = project.version.toString()
 
             from(components["java"])
-            artifact(tasks["shadowJar"])
+            artifact(tasks["jar"])
         }
     }
     repositories {
