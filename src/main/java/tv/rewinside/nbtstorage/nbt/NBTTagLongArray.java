@@ -28,11 +28,11 @@ public class NBTTagLongArray extends NBTBase {
 	}
 
 	@Override
-	void load(DataInput dataInput, int i, NBTReadLimiter nbtreadlimiter) throws IOException {
+	void load(DataInput dataInput, int i, NBTReadLimiter nbtReadLimiter) throws IOException {
 		int count = dataInput.readInt();
 		if (count >= 1 << 24) throw new NBTLoadException("Error while loading LongArray");
 
-		nbtreadlimiter.allocate(64 * count);
+		nbtReadLimiter.allocate(64 * count);
 		this.data = new long[count];
 
 		for (int index = 0; index < count; index++) {
@@ -70,8 +70,9 @@ public class NBTTagLongArray extends NBTBase {
 		for (long value : this.data) {
 			builder.append(value).append(",");
 		}
-
-		return builder + "]";
+		builder.append("]");
+		
+		return builder.toString();
 	}
 
 	@Override
