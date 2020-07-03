@@ -52,10 +52,10 @@ public class NBTTagLongArray extends NBTBase {
 
 	@Override
 	public NBTBase clone() {
-		long[] originalData = new long[this.data.length];
+		long[] copyData = new long[this.data.length];
 
-		System.arraycopy(this.data, 0, originalData, 0, this.data.length);
-		return new NBTTagLongArray(originalData);
+		System.arraycopy(this.data, 0, copyData, 0, this.data.length);
+		return new NBTTagLongArray(copyData);
 	}
 	
 	@Override
