@@ -37,7 +37,6 @@ public class NbtTagList extends NbtBase {
     for (NbtBase value : this.list) {
       value.write(dataOutput);
     }
-
   }
 
   @Override
@@ -115,9 +114,9 @@ public class NbtTagList extends NbtBase {
 
   public NbtTagCompound getCompound(final int index) {
     if (index >= 0 && index < this.list.size()) {
-      NbtBase nbtbase = this.list.get(index);
+      NbtBase nbtBase = this.list.get(index);
 
-      return nbtbase.getType() == NbtType.COMPOUND ? (NbtTagCompound) nbtbase : new NbtTagCompound();
+      return nbtBase.getType() == NbtType.COMPOUND ? (NbtTagCompound) nbtBase : new NbtTagCompound();
     } else {
       return new NbtTagCompound();
     }
@@ -125,9 +124,9 @@ public class NbtTagList extends NbtBase {
 
   public int[] getIntArray(final int index) {
     if (index >= 0 && index < this.list.size()) {
-      NbtBase nbtbase = this.list.get(index);
+      NbtBase nbtBase = this.list.get(index);
 
-      return nbtbase.getType() == NbtType.INT_ARRAY ? ((NbtTagIntArray) nbtbase).getData() : new int[0];
+      return nbtBase.getType() == NbtType.INT_ARRAY ? ((NbtTagIntArray) nbtBase).getData() : new int[0];
     } else {
       return new int[0];
     }
@@ -135,9 +134,9 @@ public class NbtTagList extends NbtBase {
 
   public double getDouble(final int index) {
     if (index >= 0 && index < this.list.size()) {
-      NbtBase nbtbase = this.list.get(index);
+      NbtBase nbtBase = this.list.get(index);
 
-      return nbtbase.getType() == NbtType.DOUBLE ? ((NbtTagDouble) nbtbase).getDouble() : 0.0D;
+      return nbtBase.getType() == NbtType.DOUBLE ? ((NbtTagDouble) nbtBase).getDouble() : 0.0D;
     } else {
       return 0.0D;
     }
@@ -145,9 +144,9 @@ public class NbtTagList extends NbtBase {
 
   public float getFloat(final int index) {
     if (index >= 0 && index < this.list.size()) {
-      NbtBase nbtbase = this.list.get(index);
+      NbtBase nbtBase = this.list.get(index);
 
-      return nbtbase.getType() == NbtType.FLOAT ? ((NbtTagFloat) nbtbase).getFloat() : 0.0F;
+      return nbtBase.getType() == NbtType.FLOAT ? ((NbtTagFloat) nbtBase).getFloat() : 0.0F;
     } else {
       return 0.0F;
     }
@@ -155,9 +154,9 @@ public class NbtTagList extends NbtBase {
 
   public String getString(final int index) {
     if (index >= 0 && index < this.list.size()) {
-      NbtBase nbtbase = this.list.get(index);
+      NbtBase nbtBase = this.list.get(index);
 
-      return nbtbase.getType() == NbtType.STRING ? ((NbtTagString) nbtbase).getData() : nbtbase.toString();
+      return nbtBase.getType() == NbtType.STRING ? ((NbtTagString) nbtBase).getData() : nbtBase.toString();
     } else {
       return "";
     }
