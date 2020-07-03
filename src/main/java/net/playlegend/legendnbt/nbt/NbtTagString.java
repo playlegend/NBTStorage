@@ -30,7 +30,7 @@ public class NbtTagString extends NbtBase {
   @Override
   void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException {
     this.data = datainput.readUTF();
-    nbtReadLimiter.allocate((long) (16 * this.data.length()));
+    nbtReadLimiter.allocate(16 * this.data.length());
   }
 
   @Override
