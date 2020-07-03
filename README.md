@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("net.playlegend:nbtstorage:VERSION:all")
+    compileOnly("net.playlegend:nbtstorage:VERSION")
 }
 ```
 
