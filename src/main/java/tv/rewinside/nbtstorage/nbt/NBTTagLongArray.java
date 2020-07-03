@@ -14,32 +14,30 @@ public class NBTTagLongArray extends NBTBase {
 	NBTTagLongArray() {
 	}
 
-	public NBTTagLongArray(long[] along) {
-		this.data = along;
+	public NBTTagLongArray(long[] data) {
+		this.data = data;
 	}
 
 	@Override
-	void write(DataOutput dataoutput) throws IOException {
-		dataoutput.writeInt(this.data.length);
+	void write(DataOutput dataOutput) throws IOException {
+		dataOutput.writeInt(this.data.length);
 
-		for (int i = 0; i < this.data.length; ++i) {
-			dataoutput.writeLong(this.data[i]);
+		for (long value : this.data) {
+			dataOutput.writeLong(value);
 		}
-
 	}
 
 	@Override
-	void load(DataInput datainput, int i, NBTReadLimiter nbtreadlimiter) throws IOException {
-		int j = datainput.readInt();
-		if (j >= 1 << 24) throw new NBTLoadException("Error while loading LongArray");
+	void load(DataInput dataInput, int i, NBTReadLimiter nbtreadlimiter) throws IOException {
+		int count = dataInput.readInt();
+		if (count >= 1 << 24) throw new NBTLoadException("Error while loading LongArray");
 
-		nbtreadlimiter.allocate((long) (64 * j));
-		this.data = new long[j];
+		nbtreadlimiter.allocate(64 * count);
+		this.data = new long[count];
 
-		for (int k = 0; k < j; ++k) {
-			this.data[k] = datainput.readLong();
+		for (int index = 0; index < count; index++) {
+			this.data[index] = dataInput.readLong();
 		}
-
 	}
 
 	@Override
@@ -54,10 +52,10 @@ public class NBTTagLongArray extends NBTBase {
 
 	@Override
 	public NBTBase clone() {
-		long[] along = new long[this.data.length];
+		long[] originalData = new long[this.data.length];
 
-		System.arraycopy(this.data, 0, along, 0, this.data.length);
-		return new NBTTagLongArray(along);
+		System.arraycopy(this.data, 0, originalData, 0, this.data.length);
+		return new NBTTagLongArray(originalData);
 	}
 	
 	@Override
@@ -67,17 +65,13 @@ public class NBTTagLongArray extends NBTBase {
 	
 	@Override
 	public String toString() {
-		String s = "[";
-		long[] along = this.data;
-		int i = along.length;
+		StringBuilder builder = new StringBuilder("[");
 
-		for (int j = 0; j < i; ++j) {
-			long k = along[j];
-
-			s = s + k + ",";
+		for (long value : this.data) {
+			builder.append(value).append(",");
 		}
 
-		return s + "]";
+		return builder + "]";
 	}
 
 	@Override
