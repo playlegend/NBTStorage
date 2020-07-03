@@ -16,7 +16,8 @@ public enum NBTType {
 	STRING(8, NBTTagString.class),
 	LIST(9, NBTTagList.class),
 	COMPOUND(10, NBTTagCompound.class),
-	INT_ARRAY(11, NBTTagIntArray.class);
+	INT_ARRAY(11, NBTTagIntArray.class),
+	LONG_ARRAY(12, NBTTagLongArray.class);
 	
 	private byte byteType;
 	private Class<? extends NBTBase> clazz;
