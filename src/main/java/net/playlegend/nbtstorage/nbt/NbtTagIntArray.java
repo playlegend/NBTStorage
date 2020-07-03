@@ -1,9 +1,9 @@
-package net.playlegend.legendnbt.nbt;
+package net.playlegend.nbtstorage.nbt;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import net.playlegend.legendnbt.exceptions.NbtLoadException;
+import net.playlegend.nbtstorage.exceptions.NbtLoadException;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -12,58 +12,65 @@ import java.util.Arrays;
 
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @ToString
-public class NbtTagByteArray extends NbtBase {
+public class NbtTagIntArray extends NbtBase {
 
-  private byte[] data;
+  private int[] data;
 
-  public NbtTagByteArray(byte[] data) {
+  public NbtTagIntArray(int[] data) {
     this.data = data;
   }
 
   @Override
   void write(DataOutput dataOutput) throws IOException {
     dataOutput.writeInt(this.data.length);
-    dataOutput.write(this.data);
+
+    for (int value : this.data) {
+      dataOutput.writeInt(value);
+    }
+
   }
 
   @Override
   void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException {
     int count = datainput.readInt();
     if (count >= 1 << 24) {
-      throw new NbtLoadException("Error while loading ByteArray");
+      throw new NbtLoadException("Error while loading IntArray");
     }
 
-    nbtReadLimiter.allocate(8 * count);
-    this.data = new byte[count];
-    datainput.readFully(this.data);
+    nbtReadLimiter.allocate(32 * count);
+    this.data = new int[count];
+
+    for (int index = 0; index < count; index++) {
+      this.data[index] = datainput.readInt();
+    }
+
   }
 
   @Override
   public NbtType getType() {
-    return NbtType.BYTE_ARRAY;
+    return NbtType.INT_ARRAY;
   }
 
   @Override
-  public byte[] getData() {
+  public int[] getData() {
     return this.data;
   }
 
   @Override
   public NbtBase clone() {
-    byte[] dataCopy = new byte[this.data.length];
+    int[] dataCopy = new int[this.data.length];
 
     System.arraycopy(this.data, 0, dataCopy, 0, this.data.length);
-    return new NbtTagByteArray(dataCopy);
+    return new NbtTagIntArray(dataCopy);
   }
 
   @Override
   public boolean equals(Object other) {
-    return super.equals(other) && Arrays.equals(this.data, ((NbtTagByteArray) other).data);
+    return super.equals(other) && Arrays.equals(this.data, ((NbtTagIntArray) other).data);
   }
 
   @Override
   public int hashCode() {
     return super.hashCode() ^ Arrays.hashCode(this.data);
   }
-
 }

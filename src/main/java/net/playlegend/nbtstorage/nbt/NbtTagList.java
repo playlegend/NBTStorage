@@ -1,9 +1,9 @@
-package net.playlegend.legendnbt.nbt;
+package net.playlegend.nbtstorage.nbt;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import net.playlegend.legendnbt.exceptions.NbtException;
+import net.playlegend.nbtstorage.exceptions.NbtException;
 
 import java.io.DataInput;
 import java.io.DataOutput;

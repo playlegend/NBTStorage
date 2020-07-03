@@ -1,4 +1,4 @@
-package net.playlegend.legendnbt.nbt;
+package net.playlegend.nbtstorage.nbt;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

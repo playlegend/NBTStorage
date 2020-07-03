@@ -1,8 +1,9 @@
-package net.playlegend.legendnbt.nbt;
+package net.playlegend.nbtstorage.nbt;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import net.playlegend.nbtstorage.nbt.NbtBase.NbtNumber;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -10,28 +11,28 @@ import java.io.IOException;
 
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @ToString
-public class NbtTagInt extends NbtBase.NbtNumber {
+public class NbtTagDouble extends NbtNumber {
 
-  private int data;
+  private double data;
 
-  public NbtTagInt(int data) {
+  public NbtTagDouble(double data) {
     this.data = data;
   }
 
   @Override
   void write(DataOutput dataOutput) throws IOException {
-    dataOutput.writeInt(this.data);
+    dataOutput.writeDouble(this.data);
   }
 
   @Override
   void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException {
-    nbtReadLimiter.allocate(32L);
-    this.data = datainput.readInt();
+    nbtReadLimiter.allocate(64L);
+    this.data = datainput.readDouble();
   }
 
   @Override
   public NbtType getType() {
-    return NbtType.INT;
+    return NbtType.DOUBLE;
   }
 
   @Override
@@ -41,15 +42,15 @@ public class NbtTagInt extends NbtBase.NbtNumber {
 
   @Override
   public NbtBase clone() {
-    return new NbtTagInt(this.data);
+    return new NbtTagDouble(this.data);
   }
 
   @Override
   public boolean equals(Object other) {
     if (super.equals(other)) {
-      NbtTagInt nbttagint = (NbtTagInt) other;
+      NbtTagDouble nbttagdouble = (NbtTagDouble) other;
 
-      return this.data == nbttagint.data;
+      return this.data == nbttagdouble.data;
     } else {
       return false;
     }
@@ -57,6 +58,9 @@ public class NbtTagInt extends NbtBase.NbtNumber {
 
   @Override
   public int hashCode() {
-    return super.hashCode() ^ this.data;
+    long i = Double.doubleToLongBits(this.data);
+
+    return super.hashCode() ^ (int) (i ^ i >>> 32);
   }
+
 }

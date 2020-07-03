@@ -1,4 +1,4 @@
-package net.playlegend.legendnbt.annotations;
+package net.playlegend.nbtstorage.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

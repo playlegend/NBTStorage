@@ -1,6 +1,6 @@
-package net.playlegend.legendnbt.nbt;
+package net.playlegend.nbtstorage.nbt;
 
-import net.playlegend.legendnbt.exceptions.NbtReadException;
+import net.playlegend.nbtstorage.exceptions.NbtReadException;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

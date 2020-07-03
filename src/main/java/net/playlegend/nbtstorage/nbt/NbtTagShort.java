@@ -1,9 +1,8 @@
-package net.playlegend.legendnbt.nbt;
+package net.playlegend.nbtstorage.nbt;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import net.playlegend.legendnbt.nbt.NbtBase.NbtNumber;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -11,28 +10,28 @@ import java.io.IOException;
 
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @ToString
-public class NbtTagByte extends NbtNumber {
+public class NbtTagShort extends NbtBase.NbtNumber {
 
-  private byte data;
+  private short data;
 
-  public NbtTagByte(byte data) {
+  public NbtTagShort(short data) {
     this.data = data;
   }
 
   @Override
   void write(DataOutput dataOutput) throws IOException {
-    dataOutput.writeByte(this.data);
+    dataOutput.writeShort(this.data);
   }
 
   @Override
   void load(DataInput datainput, int complexity, NBTReadLimiter nbtReadLimiter) throws IOException {
-    nbtReadLimiter.allocate(8L);
-    this.data = datainput.readByte();
+    nbtReadLimiter.allocate(16L);
+    this.data = datainput.readShort();
   }
 
   @Override
   public NbtType getType() {
-    return NbtType.BYTE;
+    return NbtType.SHORT;
   }
 
   @Override
@@ -42,15 +41,15 @@ public class NbtTagByte extends NbtNumber {
 
   @Override
   public NbtBase clone() {
-    return new NbtTagByte(this.data);
+    return new NbtTagShort(this.data);
   }
 
   @Override
   public boolean equals(Object other) {
     if (super.equals(other)) {
-      NbtTagByte nbttagbyte = (NbtTagByte) other;
+      NbtTagShort nbttagshort = (NbtTagShort) other;
 
-      return this.data == nbttagbyte.data;
+      return this.data == nbttagshort.data;
     } else {
       return false;
     }

@@ -1,4 +1,4 @@
-package net.playlegend.legendnbt.exceptions;
+package net.playlegend.nbtstorage.exceptions;
 
 
 public class NbtException extends Error {
