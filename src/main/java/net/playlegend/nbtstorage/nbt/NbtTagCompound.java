@@ -242,9 +242,9 @@ public class NbtTagCompound extends NbtBase {
       if (this.typeOf(key) != NbtType.LIST) {
         return new NbtTagList();
       } else {
-        NbtTagList nbttaglist = (NbtTagList) this.map.get(key);
+        NbtTagList nbtTagList = (NbtTagList) this.map.get(key);
 
-        return nbttaglist.size() == 0 || nbttaglist.getListType() != type ? new NbtTagList() : nbttaglist;
+        return nbtTagList.size() == 0 || nbtTagList.getListType() != type ? new NbtTagList() : nbtTagList;
       }
     } catch (ClassCastException classcastexception) {
       throw new NbtReadException(classcastexception);
@@ -266,11 +266,11 @@ public class NbtTagCompound extends NbtBase {
 
   private static NbtBase readTag(final NbtType type, final DataInput dataInput, final int complexity,
                                  final NbtReadLimiter nbtReadLimiter) throws IOException {
-    NbtBase nbtbase = type.newInstance();
+    NbtBase nbtBase = type.newInstance();
 
     try {
-      nbtbase.load(dataInput, complexity, nbtReadLimiter);
-      return nbtbase;
+      nbtBase.load(dataInput, complexity, nbtReadLimiter);
+      return nbtBase;
     } catch (IOException ioexception) {
       throw new NbtLoadException(ioexception);
     }
