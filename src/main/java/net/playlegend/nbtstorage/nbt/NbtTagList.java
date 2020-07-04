@@ -1,6 +1,5 @@
 package net.playlegend.nbtstorage.nbt;
 
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import net.playlegend.nbtstorage.exceptions.NbtException;
@@ -11,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor
 @ToString
 public class NbtTagList extends NbtBase {
 
