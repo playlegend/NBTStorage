@@ -1,6 +1,5 @@
 package net.playlegend.nbtstorage.nbt;
 
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import net.playlegend.nbtstorage.exceptions.NbtLoadException;
@@ -10,7 +9,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.util.Arrays;
 
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor
 @ToString
 public class NbtTagLongArray extends NbtBase {
 
