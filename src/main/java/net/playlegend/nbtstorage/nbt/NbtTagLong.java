@@ -1,6 +1,5 @@
 package net.playlegend.nbtstorage.nbt;
 
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import net.playlegend.nbtstorage.nbt.NbtBase.NbtNumber;
@@ -9,7 +8,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor
 @ToString
 public class NbtTagLong extends NbtNumber {
 
