@@ -109,6 +109,10 @@ public class NbtTagCompound extends NbtBase {
     this.map.put(key, new NbtTagIntArray(value));
   }
 
+  public void setLongArray(final String key, final long[] value) {
+    this.map.put(key, new NbtTagLongArray(value));
+  }
+
   public void setBoolean(final String key, final boolean value) {
     this.setByte(key, (byte) (value ? 1 : 0));
   }
@@ -228,6 +232,13 @@ public class NbtTagCompound extends NbtBase {
       return new int[0];
     }
     return ((NbtTagIntArray) this.map.get(key)).getData();
+  }
+
+  public long[] getLongArray(final String key) {
+    if (this.typeOf(key) != NbtType.LONG_ARRAY) {
+      return new long[0];
+    }
+    return ((NbtTagLongArray) this.map.get(key)).getData();
   }
 
   public NbtTagCompound getCompound(final String key) {
