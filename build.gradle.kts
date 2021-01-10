@@ -18,7 +18,7 @@ plugins {
     `maven-publish`
     checkstyle
     id("com.github.johnrengelman.shadow") version "6.1.0"
-    id("com.gorylenko.gradle-git-properties") version "2.2.2"
+    id("com.gorylenko.gradle-git-properties") version "2.2.4"
     id("com.github.spotbugs") version "4.6.0"
 }
 
