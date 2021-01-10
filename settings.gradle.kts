@@ -1,1 +1,1 @@
-rootProject.name = "nbtstorage"
+rootProject.name = "NBTStorage"

@@ -1,6 +1,40 @@
 #!/bin/sh
+# Block pushing in prod, stage and dev
+local_branch="$(git rev-parse --abbrev-ref HEAD)"
+blocked_branch_regex="dev|stage|prod"
+message="You are not permitted to push into $local_branch."
 
-./gradlew checkstyleMain
-[ $? -gt 0 ] && exit 1
+if [[ $local_branch =~ $blocked_branch_regex ]]
+then
+    echo "$message"
+    exit 1
+fi
+
+# Verify branch naming scheme
+valid_branch_regex="^(feature|bugfix|hotfix)\/[a-z0-9-]+$"
+message="There is something wrong with your branch name. Branch names in this project must adhere to this contract: $valid_branch_regex. Your commit will be rejected. You should rename your branch to a valid name and try again."
+
+if [[ ! $local_branch =~ $valid_branch_regex ]]
+then
+    echo "$message"
+    exit 1
+fi
+
+# Verify checkstyle is successful
+checkstyle_error="Checkstyle failed. Your commit will be rejected. Please run checkstyleMain and fix the found errors."
+
+if ! ./gradlew checkstyleMain &>/dev/null
+then
+  echo "$checkstyle_error"
+  exit 1
+fi
+
+# Check if contains mavenLocal() and print a warning (pushing will be permitted with mavenLocal())
+if [[ $(find . -name "build.gradle.kts" -exec grep -m1 'mavenLocal()' {} +) ]]
+then
+  echo ""
+  echo "You have mavenLocal() in your repositories. Please remember to remove mavenLocal() before pushing"
+  echo ""
+fi
 
 exit 0

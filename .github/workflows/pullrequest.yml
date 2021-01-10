@@ -1,0 +1,71 @@
+name: Additional PR checks
+on: pull_request
+jobs:
+  build-scan:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Set up JDK 1.15
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.15
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build
+        run: echo "##[set-output name=scan_url;]$(./gradlew --scan --build-cache --refresh-dependencies --parallel build | grep "https://gradle.com/s/*")"
+        env:
+          repositoryUser: ${{ secrets.repositoryUser }}
+          repositoryPassword: ${{ secrets.repositoryPassword }}
+        id: extract_buildscan
+      - name: Add Buildscan to PR
+        uses: mshick/add-pr-comment@07f6903
+        with:
+          message: |
+            Here is your **BuildScan** from latest pipeline build: ${{steps.extract_buildscan.outputs.scan_url}}
+          repo-token: ${{ secrets.githubToken }}
+          repo-token-user-login: 'playlegendnet'
+          allow-repeats: true
+  checkstyle:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Set up JDK 1.15
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.15
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Download checkstyle.xml
+        run: curl -o checkstyle.xml https://static.playlegend.net/checkstyle.xml
+      - name: Run Checkstyle
+        uses: nikitasavinov/checkstyle-action@68d611c
+        with:
+          checkstyle_config: checkstyle.xml
+          github_token: ${{ secrets.githubToken }}
+          reporter: 'github-pr-review'
+          tool_name: 'checkstyle'
+        env:
+          repositoryUser: ${{ secrets.repositoryUser }}
+          repositoryPassword: ${{ secrets.repositoryPassword }}
+  spotbugs:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Set up JDK 1.15
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.15
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Run Spotbugs
+        run: ./gradlew --build-cache --refresh-dependencies --parallel spotbugsMain
+        env:
+          repositoryUser: ${{ secrets.repositoryUser }}
+          repositoryPassword: ${{ secrets.repositoryPassword }}
+      - name: Export Spotbugs results
+        uses: jwgmeligmeyling/spotbugs-github-action@efe5b40
+        with:
+          path: '**/reports/spotbugs/main.xml'
+        env:
+          repositoryUser: ${{ secrets.repositoryUser }}
+          repositoryPassword: ${{ secrets.repositoryPassword }}
