@@ -4,7 +4,8 @@ val branch: String? = System.getenv("GITHUB_REF")
 
 group = "net.playlegend"
 version = if (System.getenv("CI") != null) {
-    if (branch.equals("stage") || branch.equals("prod")) {
+    if (branch.equals("stage") || branch.equals("prod")
+            || branch!!.matches(Regex("v\\d+[.]\\d+[.]\\d+"))) {
         branch.toString()
     } else {
         "$branch-SNAPSHOT"
