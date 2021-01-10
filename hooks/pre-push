@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Check if contains mavenLocal() and block pushing
+if [[ $(find . -name "build.gradle.kts" -exec grep -m1 'mavenLocal()' {} +) ]]
+then
+  echo ""
+  echo "You have mavenLocal() in your repositories. Your push has been canceled!"
+  echo ""
+  exit 1
+fi
+
+exit 0

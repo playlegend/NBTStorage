@@ -1,6 +1,6 @@
 package net.playlegend.nbtstorage.exceptions;
 
-public class NbtReadException extends Error {
+public class NbtReadException extends RuntimeException {
 
   public NbtReadException(final Throwable cause) {
     super(cause);
