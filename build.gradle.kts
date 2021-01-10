@@ -4,17 +4,22 @@ val branch: String? = System.getenv("GITHUB_REF")
 
 group = "net.playlegend"
 version = if (System.getenv("CI") != null) {
-    branch.toString()
+    if (branch.equals("stage") || branch.equals("prod")) {
+        branch.toString()
+    } else {
+        "$branch-SNAPSHOT"
+    }
 } else {
-    "dev"
+    "dev-SNAPSHOT"
 }.replace("/", "-")
 
 plugins {
     java
     `maven-publish`
     checkstyle
-    id("com.github.johnrengelman.shadow") version "5.1.0"
-    id("com.gorylenko.gradle-git-properties") version "2.2.2"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
+    id("com.gorylenko.gradle-git-properties") version "2.2.4"
+    id("com.github.spotbugs") version "4.6.0"
 }
 
 tasks.create<Copy>("copyHooks") {
@@ -25,21 +30,24 @@ tasks.create<Copy>("copyHooks") {
 tasks.getByPath("prepareKotlinBuildScriptModel").dependsOn("copyHooks")
 
 repositories {
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    maven("https://oss.sonatype.org/content/repositories/snapshots")
+    maven("https://papermc.io/repo/repository/maven-public/")
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT")
-    compileOnly("org.projectlombok:lombok:1.18.12")
-    annotationProcessor("org.projectlombok:lombok:1.18.12")
+    compileOnly("com.destroystokyo.paper:paper-api:1.16.4-R0.1-SNAPSHOT")
+    compileOnly("org.projectlombok:lombok:1.18.16")
+    annotationProcessor("org.projectlombok:lombok:1.18.16")
 }
 
 checkstyle {
-    toolVersion = "8.34"
+    toolVersion = "8.39"
     config = project.resources.text.fromUri("https://static.playlegend.net/checkstyle.xml")
+}
+
+spotbugs {
+    ignoreFailures.set(true)
+    showProgress.set(true)
 }
 
 gitProperties {
@@ -54,6 +62,13 @@ java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
     withSourcesJar()
+}
+
+tasks.javadoc {
+    options.encoding = "UTF-8"
+    if (JavaVersion.current().isJava9Compatible) {
+        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+    }
 }
 
 tasks.withType<JavaCompile> { options.encoding = "UTF-8" }
