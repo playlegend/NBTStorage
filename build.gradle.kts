@@ -42,8 +42,8 @@ dependencies {
 }
 
 checkstyle {
-    toolVersion = "8.39"
-    config = project.resources.text.fromUri("https://static.playlegend.net/checkstyle.xml")
+    toolVersion = "8.40"
+    config = project.resources.text.fromUri("https://assets.playlegend.net/checkstyle.xml")
 }
 
 spotbugs {

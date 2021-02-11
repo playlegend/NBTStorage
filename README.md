@@ -1,4 +1,4 @@
-<a href="https://playlegend.net"><img src="https://static.playlegend.net/full-logo-stone-highres.png" width="60%"></a>
+<a href="https://playlegend.net"><img src="assets/full-logo-stone-highres.png" width="60%"></a>
 
 # NBTStorage
 NBTStorage is an API for editing all kinds of Nbt related data in Minecraft **Bukkit**.
