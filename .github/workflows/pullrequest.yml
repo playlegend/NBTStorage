@@ -18,7 +18,7 @@ jobs:
           repositoryPassword: ${{ secrets.repositoryPassword }}
         id: extract_buildscan
       - name: Add Buildscan to PR
-        uses: mshick/add-pr-comment@07f6903
+        uses: mshick/add-pr-comment@07f690343c25a94e24a8acb70d03c86b701ae322
         with:
           message: |
             Here is your **BuildScan** from latest pipeline build: ${{steps.extract_buildscan.outputs.scan_url}}
@@ -38,7 +38,7 @@ jobs:
       - name: Download checkstyle.xml
         run: curl -o checkstyle.xml https://static.playlegend.net/checkstyle.xml
       - name: Run Checkstyle
-        uses: nikitasavinov/checkstyle-action@68d611c
+        uses: nikitasavinov/checkstyle-action@f999c929c59da398aa0ea49c98d4b3056b03ca46
         with:
           checkstyle_config: checkstyle.xml
           github_token: ${{ secrets.githubToken }}
@@ -63,7 +63,7 @@ jobs:
           repositoryUser: ${{ secrets.repositoryUser }}
           repositoryPassword: ${{ secrets.repositoryPassword }}
       - name: Export Spotbugs results
-        uses: jwgmeligmeyling/spotbugs-github-action@efe5b40
+        uses: jwgmeligmeyling/spotbugs-github-action@efe5b4060e8db59d224fd863411375c994e46a69
         with:
           path: '**/reports/spotbugs/main.xml'
         env:
